@@ -164,9 +164,11 @@ export default function HomePage({ loaderData }: Route.ComponentProps) {
 
           <PricingSection
             theme={theme}
+            pricingText={bundle.settings.pricingText}
             categories={bundle.categories}
             packages={bundle.packages}
             onSelectPackage={handleOpenBriefWithPackage}
+            onStartProject={handleOpenGeneralBrief}
           />
 
           <TestimonialsSection
