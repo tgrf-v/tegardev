@@ -13,6 +13,13 @@ export interface SiteSettings {
   updatedAt: string;
 }
 
+export interface ServiceItem {
+  id: number;
+  title: string;
+  sortOrder: number;
+  isPublished: boolean;
+}
+
 export interface SkillGroup {
   id: number;
   groupName: string;
@@ -105,6 +112,7 @@ export interface MediaAsset {
 
 export interface PortfolioContentBundle {
   settings: SiteSettings;
+  services: ServiceItem[];
   skills: SkillGroup[];
   projects: ProjectItem[];
   categories: PackageCategory[];

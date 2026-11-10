@@ -15,6 +15,15 @@ export const siteSettings = sqliteTable("site_settings", {
   updatedAt: text("updated_at").notNull(),
 });
 
+export const services = sqliteTable("services", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  title: text("title").notNull(),
+  sortOrder: integer("sort_order").notNull().default(1),
+  isPublished: integer("is_published", { mode: "boolean" })
+    .notNull()
+    .default(true),
+});
+
 export const skills = sqliteTable("skills", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   groupName: text("group_name").notNull(),
