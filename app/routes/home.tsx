@@ -150,13 +150,17 @@ export default function HomePage({ loaderData }: Route.ComponentProps) {
               settings={bundle.settings}
               onStartProject={handleOpenGeneralBrief}
             />
-            <ServiceMarquee theme={theme} />
+            <ServiceMarquee
+              theme={theme}
+              services={bundle.services
+                .filter((s) => s.isPublished)
+                .map((s) => s.title)}
+            />
           </div>
 
           <AboutSkillsSection
             theme={theme}
             settings={bundle.settings}
-            skills={bundle.skills}
             onStartProject={handleOpenGeneralBrief}
           />
 

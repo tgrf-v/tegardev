@@ -1,10 +1,9 @@
 import { cn } from "~/lib/utils";
-import type { SiteSettings, SkillGroup } from "~/types/content";
+import type { SiteSettings } from "~/types/content";
 import { DeveloperVisualArt } from "~/components/public/developer-visual-art";
 
 interface AboutSkillsSectionProps {
   settings: SiteSettings;
-  skills?: SkillGroup[];
   onStartProject?: () => void;
   theme?: "light" | "dark";
 }
