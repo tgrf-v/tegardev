@@ -24,7 +24,7 @@ export function AdminSidebar({
 }: AdminSidebarProps) {
   const navItems = [
     { label: "Ringkasan", to: basePath || "/", end: true, icon: LayoutDashboard },
-    { label: "Profil & Keahlian", to: `${basePath}/profil`, end: false, icon: UserCog },
+    { label: "Profil & Layanan", to: `${basePath}/profil`, end: false, icon: UserCog },
     { label: "Proyek Unggulan", to: `${basePath}/proyek`, end: false, icon: FolderKanban },
     { label: "Paket & Harga", to: `${basePath}/paket`, end: false, icon: Tags },
     { label: "Testimoni", to: `${basePath}/testimoni`, end: false, icon: MessageSquareQuote },

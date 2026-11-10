@@ -15,16 +15,17 @@ import {
 } from "~/components/ui/dialog";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
+import { Switch } from "~/components/ui/switch";
 import { Textarea } from "~/components/ui/textarea";
 import {
-  deleteSkillGroupRecord,
+  deleteServiceRecord,
   getAdminProfileData,
   saveSiteSettings,
-  upsertSkillGroupRecord,
+  upsertServiceRecord,
 } from "~/db/repository.server";
 import { requireAdminAccess } from "~/lib/access-jwt.server";
 import { parseOptionalId, parsePositiveInt } from "~/lib/validations";
-import type { SkillGroup } from "~/types/content";
+import type { ServiceItem } from "~/types/content";
 
 export async function loader({ request, context }: Route.LoaderArgs) {
   const { env } = await requireAdminAccess(request, context);
@@ -68,81 +69,80 @@ export async function action({ request, context }: Route.ActionArgs) {
     };
   }
 
-  if (intent === "save-skill") {
-    const groupName = String(formData.get("groupName") ?? "").trim();
-    const items = String(formData.get("items") ?? "")
-      .split(",")
-      .map((item) => item.trim())
-      .filter(Boolean);
+  if (intent === "save-service") {
+    const title = String(formData.get("title") ?? "").trim();
 
-    if (!groupName || items.length === 0) {
+    if (!title) {
       return {
         ok: false,
-        error: "Nama kelompok dan minimal satu keahlian teknologi wajib diisi.",
+        error: "Nama layanan atau jenis solusi web wajib diisi.",
       };
     }
 
-    await upsertSkillGroupRecord(env.DB, {
+    await upsertServiceRecord(env.DB, {
       id: parseOptionalId(formData.get("id")),
-      groupName,
-      items,
+      title,
       sortOrder: parsePositiveInt(formData.get("sortOrder"), 1),
+      isPublished: formData.get("isPublished") === "on",
     });
 
     return {
       ok: true,
-      savedMessage: "Kelompok keahlian berhasil disimpan.",
+      savedMessage: "Layanan web berhasil disimpan.",
     };
   }
 
-  if (intent === "delete-skill") {
+  if (intent === "delete-service") {
     const id = parseOptionalId(formData.get("id"));
     if (id) {
-      await deleteSkillGroupRecord(env.DB, id);
+      await deleteServiceRecord(env.DB, id);
     }
-    return { ok: true, savedMessage: "Kelompok keahlian dihapus." };
+    return { ok: true, savedMessage: "Layanan web berhasil dihapus." };
   }
 
   return null;
 }
 
 export default function AdminProfilRoute({ loaderData }: Route.ComponentProps) {
-  const { settings, skills } = loaderData;
+  const { settings, services } = loaderData;
   const actionData = useActionData<typeof action>();
 
-  const [skillDialogOpen, setSkillDialogOpen] = React.useState(false);
-  const [editingSkill, setEditingSkill] = React.useState<SkillGroup | null>(
+  const [serviceDialogOpen, setServiceDialogOpen] = React.useState(false);
+  const [editingService, setEditingService] = React.useState<ServiceItem | null>(
     null,
   );
-  const [deletingSkill, setDeletingSkill] = React.useState<SkillGroup | null>(
+  const [isPublished, setIsPublished] = React.useState(true);
+  const [deletingService, setDeletingService] = React.useState<ServiceItem | null>(
     null,
   );
   const deleteFormRef = React.useRef<HTMLFormElement | null>(null);
 
   React.useEffect(() => {
     if (actionData?.ok) {
-      setSkillDialogOpen(false);
+      setServiceDialogOpen(false);
     }
   }, [actionData]);
 
-  const openCreateSkill = () => {
-    setEditingSkill(null);
-    setSkillDialogOpen(true);
+  const openCreateService = () => {
+    setEditingService(null);
+    setIsPublished(true);
+    setServiceDialogOpen(true);
   };
 
-  const openEditSkill = (group: SkillGroup) => {
-    setEditingSkill(group);
-    setSkillDialogOpen(true);
+  const openEditService = (item: ServiceItem) => {
+    setEditingService(item);
+    setIsPublished(item.isPublished);
+    setServiceDialogOpen(true);
   };
 
   return (
     <div className="flex flex-col gap-8">
       <div>
         <h1 className="font-display-anton text-[clamp(1.75rem,3vw,2.5rem)] uppercase leading-none text-cream">
-          Profil &amp; Keahlian
+          Profil &amp; Layanan
         </h1>
         <p className="mt-2 text-[14.5px] text-cream-dim">
-          Kelola judul Hero, narasi Tentang Saya, kontak tujuan Brief Proyek, serta barisan teknologi berjalan.
+          Kelola teks profil pengembang, kontak resmi, tautan media sosial, serta daftar layanan web yang ditampilkan pada pita berjalan.
         </p>
       </div>
 
@@ -157,11 +157,20 @@ export default function AdminProfilRoute({ loaderData }: Route.ComponentProps) {
       >
         <input type="hidden" name="intent" value="save-settings" />
 
+        <div className="border-b border-line pb-4">
+          <h2 className="text-[18px] font-semibold text-cream">
+            Pengaturan Profil &amp; Narasi
+          </h2>
+          <p className="mt-1 text-[13.5px] text-cream-dim">
+            Teks ini tampil langsung pada kartu Hero, section Tentang Saya, dan Footer situs publik.
+          </p>
+        </div>
+
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
           <div className="flex flex-col gap-1.5 md:col-span-2">
-            <Label htmlFor="field-hero-headline">Judul Utama Hero</Label>
+            <Label htmlFor="field-headline">Headline Hero Utama</Label>
             <Input
-              id="field-hero-headline"
+              id="field-headline"
               name="heroHeadline"
               defaultValue={settings.heroHeadline}
               required
@@ -169,7 +178,7 @@ export default function AdminProfilRoute({ loaderData }: Route.ComponentProps) {
           </div>
 
           <div className="flex flex-col gap-1.5 md:col-span-2">
-            <Label htmlFor="field-about-title">Judul Seksi Tentang Saya</Label>
+            <Label htmlFor="field-about-title">Judul Kartu Tentang Saya</Label>
             <Input
               id="field-about-title"
               name="aboutTitle"
@@ -179,24 +188,26 @@ export default function AdminProfilRoute({ loaderData }: Route.ComponentProps) {
           </div>
 
           <div className="flex flex-col gap-1.5 md:col-span-2">
-            <Label htmlFor="field-about-body">Narasi Tentang Saya</Label>
-            <span id="hint-about-body" className="text-[12.5px] text-cream-dim">
-              Pisahkan setiap paragraf menggunakan satu baris kosong agar tampil rapi di halaman utama.
+            <Label htmlFor="field-about-body">
+              Paragraf Narasi Pengembang
+            </Label>
+            <span id="hint-about" className="text-[12.5px] text-cream-dim">
+              Pisahkan antar-paragraf dengan satu baris kosong (enter dua kali).
             </span>
             <Textarea
               id="field-about-body"
               name="aboutBody"
-              aria-describedby="hint-about-body"
-              rows={7}
+              aria-describedby="hint-about"
+              rows={8}
               defaultValue={settings.aboutBody}
               required
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="field-wa">Nomor WhatsApp Tujuan Brief</Label>
+            <Label htmlFor="field-wa">Nomor WhatsApp Resmi</Label>
             <span id="hint-wa" className="text-[12.5px] text-cream-dim">
-              Gunakan kode negara 62 tanpa tanda tambah atau spasi, contoh: 6285196802314.
+              Wajib format 62 diawali tanpa tanda plus atau angka 0.
             </span>
             <Input
               id="field-wa"
@@ -264,7 +275,7 @@ export default function AdminProfilRoute({ loaderData }: Route.ComponentProps) {
         </div>
 
         <div className="flex justify-end border-t border-line pt-4">
-          <Button type="submit">Simpan</Button>
+          <Button type="submit">Simpan Profil</Button>
         </div>
       </Form>
 
@@ -272,37 +283,37 @@ export default function AdminProfilRoute({ loaderData }: Route.ComponentProps) {
         <div className="mb-5 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
           <div>
             <h2 className="text-[18px] font-semibold text-cream">
-              Daftar Keahlian Teknologi
+              Daftar Layanan &amp; Solusi Web
             </h2>
             <p className="mt-1 text-[13.5px] text-cream-dim">
-              Teknologi yang digulir otomatis pada pita berjalan tepat di bawah Hero.
+              Layanan atau jenis solusi website yang ditampilkan pada teks pita berjalan tepat di bawah Hero.
             </p>
           </div>
-          <Button size="sm" onClick={openCreateSkill}>
-            Tambah Kelompok
+          <Button size="sm" onClick={openCreateService}>
+            Tambah Layanan
           </Button>
         </div>
 
         <div
           tabIndex={0}
           role="region"
-          aria-labelledby="skills-table-caption"
+          aria-labelledby="services-table-caption"
           className="admin-table-region rounded-[4px] border border-line"
         >
           <table className="admin-responsive-table w-full text-left text-[13.5px]">
-            <caption id="skills-table-caption" className="sr-only">
-              Daftar kelompok keahlian teknologi
+            <caption id="services-table-caption" className="sr-only">
+              Daftar layanan dan solusi web
             </caption>
             <thead className="border-b border-line text-[12px] uppercase tracking-wide text-cream-dim">
               <tr>
                 <th scope="col" className="px-4 py-3 font-medium">
-                  Kelompok
-                </th>
-                <th scope="col" className="px-4 py-3 font-medium">
-                  Daftar Teknologi
+                  Nama Layanan / Solusi
                 </th>
                 <th scope="col" className="px-4 py-3 font-medium">
                   Urutan
+                </th>
+                <th scope="col" className="px-4 py-3 font-medium">
+                  Status
                 </th>
                 <th scope="col" className="px-4 py-3 text-right font-medium">
                   Aksi
@@ -310,38 +321,43 @@ export default function AdminProfilRoute({ loaderData }: Route.ComponentProps) {
               </tr>
             </thead>
             <tbody className="divide-y divide-line bg-bg">
-              {skills.map((group) => (
-                <tr key={group.id}>
+              {services.map((item) => (
+                <tr key={item.id}>
                   <th scope="row" className="px-4 py-3 font-semibold text-cream">
-                    {group.groupName}
+                    {item.title}
                   </th>
-                  <td
-                    data-label="Teknologi"
-                    className="px-4 py-3 text-cream-dim"
-                  >
-                    {group.items.join(", ")}
-                  </td>
                   <td
                     data-label="Urutan"
                     className="tabular-price px-4 py-3 text-cream-dim"
                   >
-                    {group.sortOrder}
+                    {item.sortOrder}
+                  </td>
+                  <td data-label="Status" className="px-4 py-3">
+                    {item.isPublished ? (
+                      <span className="rounded-[3px] bg-rust/20 px-2 py-0.5 text-[11px] font-medium text-rust">
+                        Aktif
+                      </span>
+                    ) : (
+                      <span className="rounded-[3px] bg-line px-2 py-0.5 text-[11px] text-cream-dim">
+                        Nonaktif
+                      </span>
+                    )}
                   </td>
                   <td data-label="Aksi" className="px-4 py-3 text-right">
                     <div className="inline-flex items-center gap-1.5">
                       <Button
                         variant="outline"
                         size="icon"
-                        aria-label={`Ubah ${group.groupName}`}
-                        onClick={() => openEditSkill(group)}
+                        aria-label={`Ubah ${item.title}`}
+                        onClick={() => openEditService(item)}
                       >
                         <Pencil className="h-3.5 w-3.5" aria-hidden="true" />
                       </Button>
                       <Button
                         variant="outline"
                         size="icon"
-                        aria-label={`Hapus ${group.groupName}`}
-                        onClick={() => setDeletingSkill(group)}
+                        aria-label={`Hapus ${item.title}`}
+                        onClick={() => setDeletingService(item)}
                       >
                         <Trash2
                           className="h-3.5 w-3.5 text-rust"
@@ -357,72 +373,68 @@ export default function AdminProfilRoute({ loaderData }: Route.ComponentProps) {
         </div>
       </section>
 
-      <Dialog open={skillDialogOpen} onOpenChange={setSkillDialogOpen}>
+      <Dialog open={serviceDialogOpen} onOpenChange={setServiceDialogOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              {editingSkill
-                ? "Ubah Kelompok Keahlian"
-                : "Tambah Kelompok Keahlian"}
+              {editingService ? "Ubah Layanan Web" : "Tambah Layanan Web"}
             </DialogTitle>
             <DialogDescription>
-              Atur nama pengelompokan dan daftar keahlian teknologi yang ditampilkan.
+              Atur nama solusi web dan status publikasi pada pita teks berjalan.
             </DialogDescription>
           </DialogHeader>
 
           <Form method="post" className="mt-5 flex flex-col gap-4">
-            <input type="hidden" name="intent" value="save-skill" />
-            {editingSkill ? (
-              <input type="hidden" name="id" value={editingSkill.id} />
+            <input type="hidden" name="intent" value="save-service" />
+            {editingService ? (
+              <input type="hidden" name="id" value={editingService.id} />
             ) : null}
 
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-              <div className="flex flex-col gap-1.5 sm:col-span-2">
-                <Label htmlFor="skill-group-name">Nama Kelompok</Label>
-                <Input
-                  id="skill-group-name"
-                  name="groupName"
-                  autoFocus
-                  required
-                  defaultValue={editingSkill?.groupName ?? ""}
-                />
-              </div>
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="service-title">Nama Layanan / Solusi Web</Label>
+              <Input
+                id="service-title"
+                name="title"
+                placeholder="Contoh: PPDB Online, Sistem Inventaris, E-Commerce"
+                autoFocus
+                required
+                defaultValue={editingService?.title ?? ""}
+              />
+            </div>
 
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="skill-sort">Urutan Tampil</Label>
+                <Label htmlFor="service-sort">Urutan Tampil</Label>
                 <Input
-                  id="skill-sort"
+                  id="service-sort"
                   type="number"
                   name="sortOrder"
                   min={1}
                   required
-                  defaultValue={editingSkill?.sortOrder ?? skills.length + 1}
+                  defaultValue={editingService?.sortOrder ?? services.length + 1}
                 />
               </div>
-            </div>
 
-            <div className="flex flex-col gap-1.5">
-              <Label htmlFor="skill-items">Daftar Teknologi</Label>
-              <span
-                id="skill-items-hint"
-                className="text-[12.5px] text-cream-dim"
-              >
-                Pisahkan nama teknologi dengan tanda koma.
-              </span>
-              <Textarea
-                id="skill-items"
-                name="items"
-                aria-describedby="skill-items-hint"
-                required
-                defaultValue={editingSkill?.items.join(", ") ?? ""}
-              />
+              <div className="flex flex-col justify-end gap-1.5">
+                <div className="flex items-center justify-between rounded-[4px] border border-line bg-bg p-2.5">
+                  <Label htmlFor="service-published" className="cursor-pointer text-[13px]">
+                    Tampilkan di Web
+                  </Label>
+                  <Switch
+                    id="service-published"
+                    name="isPublished"
+                    checked={isPublished}
+                    onCheckedChange={setIsPublished}
+                  />
+                </div>
+              </div>
             </div>
 
             <DialogFooter>
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => setSkillDialogOpen(false)}
+                onClick={() => setServiceDialogOpen(false)}
               >
                 Batal
               </Button>
@@ -433,20 +445,20 @@ export default function AdminProfilRoute({ loaderData }: Route.ComponentProps) {
       </Dialog>
 
       <Form method="post" ref={deleteFormRef} className="hidden">
-        <input type="hidden" name="intent" value="delete-skill" />
-        <input type="hidden" name="id" value={deletingSkill?.id ?? ""} />
+        <input type="hidden" name="intent" value="delete-service" />
+        <input type="hidden" name="id" value={deletingService?.id ?? ""} />
       </Form>
 
       <ConfirmDeleteDialog
-        open={Boolean(deletingSkill)}
+        open={Boolean(deletingService)}
         onOpenChange={(open) => {
-          if (!open) setDeletingSkill(null);
+          if (!open) setDeletingService(null);
         }}
-        title="Hapus Kelompok Keahlian"
-        description={`Apakah Anda yakin ingin menghapus kelompok "${deletingSkill?.groupName ?? ""}"?`}
+        title="Hapus Layanan Web"
+        description={`Apakah Anda yakin ingin menghapus "${deletingService?.title ?? ""}" dari daftar layanan pita berjalan?`}
         onConfirm={() => {
           deleteFormRef.current?.requestSubmit();
-          setDeletingSkill(null);
+          setDeletingService(null);
         }}
       />
     </div>
