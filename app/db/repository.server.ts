@@ -13,7 +13,7 @@ import {
   skills,
   testimonials,
 } from "~/db/schema";
-import { ensureDatabaseSeeded, INITIAL_ABOUT_PARAGRAPHS } from "~/db/seed";
+import { ensureDatabaseSeeded, INITIAL_ABOUT_PARAGRAPHS, INITIAL_PRICING_TEXT } from "~/db/seed";
 import { deleteObjectFromR2IfManaged } from "~/lib/r2.server";
 import type {
   FaqItem,
@@ -61,6 +61,7 @@ function mapSettingsRow(
         "Siap membangun website atau sistem untuk instansi dan bisnis Anda?",
       ctaSubtext:
         "Ceritakan kebutuhan fitur, target jadwal rilis, atau paket yang diminati untuk mendapatkan rincian ruang lingkup yang jelas.",
+      pricingText: INITIAL_PRICING_TEXT,
       updatedAt: new Date().toISOString(),
     };
   }
@@ -76,6 +77,7 @@ function mapSettingsRow(
     linkedinUrl: row.linkedinUrl,
     ctaHeadline: row.ctaHeadline,
     ctaSubtext: row.ctaSubtext,
+    pricingText: row.pricingText || INITIAL_PRICING_TEXT,
     updatedAt: row.updatedAt,
   };
 }
@@ -274,7 +276,9 @@ export async function getAdminProfileData(d1: D1Database) {
 
 export async function saveSiteSettings(
   d1: D1Database,
-  input: Omit<SiteSettings, "id" | "updatedAt">,
+  input: Omit<SiteSettings, "id" | "updatedAt" | "pricingText"> & {
+    pricingText?: string;
+  },
 ): Promise<void> {
   const db = createDatabase(d1);
   const now = new Date().toISOString();
@@ -292,6 +296,7 @@ export async function saveSiteSettings(
       linkedinUrl: input.linkedinUrl,
       ctaHeadline: input.ctaHeadline,
       ctaSubtext: input.ctaSubtext,
+      pricingText: input.pricingText ?? INITIAL_PRICING_TEXT,
       updatedAt: now,
     })
     .onConflictDoUpdate({
@@ -306,6 +311,44 @@ export async function saveSiteSettings(
         linkedinUrl: input.linkedinUrl,
         ctaHeadline: input.ctaHeadline,
         ctaSubtext: input.ctaSubtext,
+        ...(input.pricingText !== undefined
+          ? { pricingText: input.pricingText }
+          : {}),
+        updatedAt: now,
+      },
+    });
+}
+
+export async function savePricingTextRecord(
+  d1: D1Database,
+  pricingText: string,
+): Promise<void> {
+  const db = createDatabase(d1);
+  const now = new Date().toISOString();
+
+  await db
+    .insert(siteSettings)
+    .values({
+      id: 1,
+      heroHeadline:
+        "Membangun website & sistem web yang rapi, cepat, dan siap dipakai kerja nyata.",
+      aboutTitle: "Tentang Saya",
+      aboutBody: INITIAL_ABOUT_PARAGRAPHS,
+      whatsappNumber: "6285196802314",
+      contactEmail: "halo@tegardev.com",
+      githubUrl: "https://github.com/tgrf-v/",
+      linkedinUrl: "https://www.linkedin.com/in/tegar-rifa-i-a68757412/",
+      ctaHeadline:
+        "Siap membangun website atau sistem untuk instansi dan bisnis Anda?",
+      ctaSubtext:
+        "Ceritakan kebutuhan fitur, target jadwal rilis, atau paket yang diminati untuk mendapatkan rincian ruang lingkup yang jelas.",
+      pricingText,
+      updatedAt: now,
+    })
+    .onConflictDoUpdate({
+      target: siteSettings.id,
+      set: {
+        pricingText,
         updatedAt: now,
       },
     });
@@ -459,24 +502,28 @@ export async function getAdminPackagesData(d1: D1Database) {
   const db = createDatabase(d1);
   await ensureDatabaseSeeded(db);
 
-  const [categoryRows, packageRows, featureRows, addonRows] = await db.batch([
-    db
-      .select()
-      .from(packageCategories)
-      .orderBy(asc(packageCategories.sortOrder), asc(packageCategories.id)),
-    db
-      .select()
-      .from(packages)
-      .orderBy(asc(packages.sortOrder), asc(packages.id)),
-    db
-      .select()
-      .from(packageFeatures)
-      .orderBy(asc(packageFeatures.sortOrder), asc(packageFeatures.id)),
-    db
-      .select()
-      .from(packageAddons)
-      .orderBy(asc(packageAddons.sortOrder), asc(packageAddons.id)),
-  ]);
+  const [categoryRows, packageRows, featureRows, addonRows, settingsRows] =
+    await db.batch([
+      db
+        .select()
+        .from(packageCategories)
+        .orderBy(asc(packageCategories.sortOrder), asc(packageCategories.id)),
+      db
+        .select()
+        .from(packages)
+        .orderBy(asc(packages.sortOrder), asc(packages.id)),
+      db
+        .select()
+        .from(packageFeatures)
+        .orderBy(asc(packageFeatures.sortOrder), asc(packageFeatures.id)),
+      db
+        .select()
+        .from(packageAddons)
+        .orderBy(asc(packageAddons.sortOrder), asc(packageAddons.id)),
+      db.select().from(siteSettings).where(eq(siteSettings.id, 1)),
+    ]);
+
+  const settings = mapSettingsRow(settingsRows[0]);
 
   return {
     categories: categoryRows.map(
@@ -488,6 +535,7 @@ export async function getAdminPackagesData(d1: D1Database) {
       }),
     ),
     packages: assemblePackages(packageRows, featureRows, addonRows),
+    pricingText: settings.pricingText,
   };
 }
 

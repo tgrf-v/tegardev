@@ -29,6 +29,7 @@ import {
   deletePackageCategoryRecord,
   deleteServicePackageRecord,
   getAdminPackagesData,
+  savePricingTextRecord,
   upsertPackageCategoryRecord,
   upsertServicePackageRecord,
 } from "~/db/repository.server";
@@ -53,6 +54,12 @@ export async function action({ request, context }: Route.ActionArgs) {
   const { env } = await requireAdminAccess(request, context);
   const formData = await request.formData();
   const intent = String(formData.get("intent") ?? "");
+
+  if (intent === "save-pricing-text") {
+    const pricingText = String(formData.get("pricingText") ?? "").trim();
+    await savePricingTextRecord(env.DB, pricingText);
+    return { ok: true, savedMessage: "Teks harga berhasil disimpan." };
+  }
 
   if (intent === "save-category") {
     const name = String(formData.get("name") ?? "").trim();
@@ -159,7 +166,7 @@ export async function action({ request, context }: Route.ActionArgs) {
 }
 
 export default function AdminPaketRoute({ loaderData }: Route.ComponentProps) {
-  const { categories, packages } = loaderData;
+  const { categories, packages, pricingText } = loaderData;
   const actionData = useActionData<typeof action>();
 
   const [dialogOpen, setDialogOpen] = React.useState(false);
@@ -218,6 +225,35 @@ export default function AdminPaketRoute({ loaderData }: Route.ComponentProps) {
         message={actionData?.savedMessage}
         error={actionData?.error}
       />
+
+      <div className="rounded-[8px] border border-line bg-bg2 p-5 sm:p-6">
+        <div className="mb-4">
+          <h2 className="text-[16px] font-semibold text-cream">
+            Teks Penjelasan Harga
+          </h2>
+          <p className="mt-1 text-[13px] text-cream-dim">
+            Teks ini ditampilkan pada section Daftar Harga di halaman utama. Anda dapat mengisi skema harga kustom, kategori layanan, atau penjelasan biaya proyek saat paket satuan belum ditentukan.
+          </p>
+        </div>
+
+        <Form method="post" className="flex flex-col gap-4">
+          <input type="hidden" name="intent" value="save-pricing-text" />
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="pricingText">Teks Harga &amp; Keterangan Proyek</Label>
+            <Textarea
+              id="pricingText"
+              name="pricingText"
+              defaultValue={pricingText ?? ""}
+              rows={5}
+              placeholder="Tuliskan keterangan skema harga proyek..."
+              className="font-sans text-[13.5px] leading-relaxed"
+            />
+          </div>
+          <div className="flex justify-end">
+            <Button type="submit">Simpan Teks Harga</Button>
+          </div>
+        </Form>
+      </div>
 
       <div
         tabIndex={0}
