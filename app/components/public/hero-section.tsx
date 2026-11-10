@@ -21,20 +21,6 @@ export function HeroSection({ settings, theme = "light" }: HeroSectionProps) {
           : "bg-bg2 border-0",
       )}
     >
-      {/* Background Gambar Duotone Merah-Putih (Opsi B: Aksen Sisi Kanan) */}
-      {isLight && (
-        <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden select-none">
-          <img
-            src="/images/hero-duotone-botanical.jpg"
-            alt=""
-            aria-hidden="true"
-            fetchPriority="high"
-            decoding="async"
-            className="h-full w-full object-cover object-right opacity-90 [mask-image:linear-gradient(to_right,transparent_15%,black_80%)] [-webkit-mask-image:linear-gradient(to_right,transparent_15%,black_80%)]"
-          />
-        </div>
-      )}
-
       {/* Background Gambar Duotone Merah-Putih Botani (Tema Terang) */}
       {isLight && (
         <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden select-none">
@@ -44,7 +30,7 @@ export function HeroSection({ settings, theme = "light" }: HeroSectionProps) {
             aria-hidden="true"
             fetchPriority="high"
             decoding="async"
-            className="h-full w-full object-cover opacity-90"
+            className="h-full w-full object-cover opacity-25"
           />
         </div>
       )}
