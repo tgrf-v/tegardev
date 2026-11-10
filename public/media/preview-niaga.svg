@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" width="960" height="600" fill="none">
+  <rect width="960" height="600" fill="#121010"/>
+  <rect x="32" y="32" width="896" height="536" rx="4" fill="#1A1512" stroke="#2E2622" stroke-width="2"/>
+  <line x1="32" y1="84" x2="928" y2="84" stroke="#2E2622" stroke-width="2"/>
+  <text x="60" y="64" fill="#F3EEE6" font-family="sans-serif" font-size="15" font-weight="700">KATALOG &amp; OPERASIONAL NIAGA</text>
+  <rect x="748" y="46" width="152" height="26" rx="3" fill="#A8391C"/>
+  <text x="824" y="63" fill="#F3EEE6" font-family="sans-serif" font-size="11" font-weight="600" text-anchor="middle">RINGKASAN TRANSAKSI</text>
+
+  <!-- Product Grid Left -->
+  <rect x="60" y="112" width="256" height="204" rx="4" fill="#121010" stroke="#2E2622"/>
+  <rect x="76" y="128" width="224" height="96" rx="3" fill="#1A1512" stroke="#2E2622"/>
+  <text x="188" y="181" fill="#C9C0B3" font-family="monospace" font-size="12" text-anchor="middle">SKU-KOP-01</text>
+  <text x="76" y="250" fill="#F3EEE6" font-family="sans-serif" font-size="14" font-weight="600">Biji Kopi Arabika Gayo 500g</text>
+  <text x="76" y="272" fill="#C9C0B3" font-family="sans-serif" font-size="12">Stok Gudang: 84 kemasan</text>
+  <text x="76" y="298" fill="#A8391C" font-family="sans-serif" font-size="13" font-weight="700">Rp 135.000</text>
+
+  <rect x="336" y="112" width="256" height="204" rx="4" fill="#121010" stroke="#2E2622"/>
+  <rect x="352" y="128" width="224" height="96" rx="3" fill="#1A1512" stroke="#2E2622"/>
+  <text x="464" y="181" fill="#C9C0B3" font-family="monospace" font-size="12" text-anchor="middle">SKU-KOP-02</text>
+  <text x="352" y="250" fill="#F3EEE6" font-family="sans-serif" font-size="14" font-weight="600">House Blend Espresso 1kg</text>
+  <text x="352" y="272" fill="#C9C0B3" font-family="sans-serif" font-size="12">Stok Gudang: 42 kemasan</text>
+  <text x="352" y="298" fill="#A8391C" font-family="sans-serif" font-size="13" font-weight="700">Rp 210.000</text>
+
+  <!-- Order Summary Panel Right -->
+  <rect x="612" y="112" width="288" height="428" rx="4" fill="#121010" stroke="#A8391C"/>
+  <text x="636" y="146" fill="#F3EEE6" font-family="sans-serif" font-size="14" font-weight="700">PESANAN AKTIF #INV-8092</text>
+  <line x1="636" y1="164" x2="876" y2="164" stroke="#2E2622"/>
+  <text x="636" y="194" fill="#F3EEE6" font-family="sans-serif" font-size="13">2x Arabika Gayo 500g</text>
+  <text x="876" y="194" fill="#C9C0B3" font-family="sans-serif" font-size="13" text-anchor="end">Rp 270.000</text>
+  <text x="636" y="224" fill="#F3EEE6" font-family="sans-serif" font-size="13">1x House Blend 1kg</text>
+  <text x="876" y="224" fill="#C9C0B3" font-family="sans-serif" font-size="13" text-anchor="end">Rp 210.000</text>
+  <text x="636" y="254" fill="#C9C0B3" font-family="sans-serif" font-size="12">Ekspedisi Reguler</text>
+  <text x="876" y="254" fill="#C9C0B3" font-family="sans-serif" font-size="12" text-anchor="end">Rp 18.000</text>
+  <line x1="636" y1="278" x2="876" y2="278" stroke="#2E2622"/>
+  <text x="636" y="308" fill="#F3EEE6" font-family="sans-serif" font-size="14" font-weight="700">Total Tagihan</text>
+  <text x="876" y="308" fill="#A8391C" font-family="sans-serif" font-size="16" font-weight="700" text-anchor="end">Rp 498.000</text>
+
+  <rect x="636" y="344" width="240" height="56" rx="3" fill="#1A1512" stroke="#2E2622"/>
+  <text x="652" y="368" fill="#C9C0B3" font-family="sans-serif" font-size="11">METODE PEMBAYARAN</text>
+  <text x="652" y="388" fill="#F3EEE6" font-family="sans-serif" font-size="13" font-weight="600">QRIS Terverifikasi Otomatis</text>
+
+  <rect x="636" y="484" width="240" height="36" rx="3" fill="#A8391C"/>
+  <text x="756" y="507" fill="#F3EEE6" font-family="sans-serif" font-size="12" font-weight="600" text-anchor="middle">Cetak Resi Pengiriman</text>
+
+  <!-- Stock Log Bottom Left -->
+  <rect x="60" y="336" width="532" height="204" rx="4" fill="#121010" stroke="#2E2622"/>
+  <text x="84" y="368" fill="#F3EEE6" font-family="sans-serif" font-size="13" font-weight="700">PERGERAKAN STOK HARIAN</text>
+  <line x1="60" y1="384" x2="592" y2="384" stroke="#2E2622"/>
+  <text x="84" y="416" fill="#C9C0B3" font-family="monospace" font-size="12">16:40</text>
+  <text x="156" y="416" fill="#F3EEE6" font-family="sans-serif" font-size="13">Keluar 2 unit — SKU-KOP-01 (Pesanan #INV-8092)</text>
+  <line x1="84" y1="434" x2="568" y2="434" stroke="#2E2622"/>
+  <text x="84" y="464" fill="#C9C0B3" font-family="monospace" font-size="12">14:15</text>
+  <text x="156" y="464" fill="#F3EEE6" font-family="sans-serif" font-size="13">Masuk 50 unit — Restok Gudang Utama</text>
+  <line x1="84" y1="482" x2="568" y2="482" stroke="#2E2622"/>
+  <text x="84" y="512" fill="#C9C0B3" font-family="monospace" font-size="12">11:05</text>
+  <text x="156" y="512" fill="#F3EEE6" font-family="sans-serif" font-size="13">Keluar 5 unit — Pembelian Grosir Mitra Kafe</text>
+</svg>

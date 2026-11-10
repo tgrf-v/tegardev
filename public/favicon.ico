@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200">
+  <style>
+    polygon {
+      fill: #09090b;
+    }
+    @media (prefers-color-scheme: dark) {
+      polygon {
+        fill: #f4f4f5;
+      }
+    }
+  </style>
+  <!-- Shape 1: Tilted Rectangle (Lower Left) -->
+  <polygon points="107,588 330,526 480,1079 257,1141" />
+  <!-- Shape 2: Stylized Hook Polygon (Top Right) -->
+  <polygon points="306,91 1091,91 1091,877 587,877 587,525 799,525 799,350 306,350" />
+</svg>
