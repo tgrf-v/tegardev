@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build & Framework Outputs
+build/
+dist/
+.react-router/
+.wrangler/
+.temp-rr/
+*.tsbuildinfo
+
+# Environment & Secrets (NEVER commit active secrets)
+.env
+.env.*
+!.env.example
+.dev.vars
+!.dev.vars.example
+*.pem
+*.key
+
+# Internal Non-Public Business Docs
+PANDUAN_*.md
+STRATEGI_*.md
+
+# Logs & OS
+*.log
+npm-debug.log*
+pnpm-debug.log*
+.DS_Store
+Thumbs.db
+
+# Editor & Local Tooling
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.impeccable/config.local.json

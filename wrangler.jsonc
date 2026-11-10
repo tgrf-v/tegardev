@@ -1,0 +1,41 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "tegardev",
+  "compatibility_date": "2026-11-03",
+  "main": "./workers/app.ts",
+  "workers_dev": false,
+  "vars": {
+    "PUBLIC_DOMAIN": "tegardev.biz.id",
+    "ADMIN_SUBDOMAIN": "admin.tegardev.biz.id",
+    "CLOUDFLARE_ACCESS_TEAM_DOMAIN": "bitter-salad-3a10.cloudflareaccess.com",
+    "CLOUDFLARE_ACCESS_AUD": "1ecb19c83ab9adc086e7b3fbd9d7b0fa5751ad33be7522bbf2f046bbdba90a4e"
+  },
+  "routes": [
+    {
+      "pattern": "tegardev.biz.id",
+      "custom_domain": true
+    },
+    {
+      "pattern": "admin.tegardev.biz.id",
+      "custom_domain": true
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "tegardev-db",
+      "database_id": "15fc64b7-95d0-4638-ba4b-b0ebc40fcb3e",
+      "migrations_dir": "drizzle"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "MEDIA_BUCKET",
+      "bucket_name": "tegardev-storage"
+    }
+  ],
+  "observability": {
+    "enabled": true
+  },
+  "upload_source_maps": true
+}

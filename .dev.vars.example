@@ -1,0 +1,13 @@
+# Domain utama publik & subdomain admin
+PUBLIC_DOMAIN=tegardev.biz.id
+ADMIN_SUBDOMAIN=admin.tegardev.biz.id
+
+# Cloudflare Zero Trust Access untuk verifikasi Cf-Access-Jwt-Assertion di produksi
+# Biarkan kosong saat pengembangan lokal di localhost
+CLOUDFLARE_ACCESS_TEAM_DOMAIN=
+CLOUDFLARE_ACCESS_AUD=
+
+# Opsional khusus perintah drizzle-kit studio / push jarak jauh via HTTP API
+CLOUDFLARE_ACCOUNT_ID=
+CLOUDFLARE_DATABASE_ID=
+CLOUDFLARE_D1_TOKEN=
