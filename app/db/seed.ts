@@ -8,6 +8,7 @@ import {
   packageFeatures,
   packages,
   projects,
+  services,
   siteSettings,
   skills,
   testimonials,
@@ -53,6 +54,23 @@ export async function ensureDatabaseSeeded(db: AppDatabase): Promise<void> {
       pricingText: INITIAL_PRICING_TEXT,
       updatedAt: SEED_TIMESTAMP,
     }),
+
+    db.insert(services).values([
+      { id: 1, title: "PPDB Online", sortOrder: 1, isPublished: true },
+      { id: 2, title: "Website Sekolah & Yayasan", sortOrder: 2, isPublished: true },
+      { id: 3, title: "Company Profile", sortOrder: 3, isPublished: true },
+      { id: 4, title: "Toko Online & E-Commerce", sortOrder: 4, isPublished: true },
+      { id: 5, title: "Aplikasi POS Apotek & Ritel", sortOrder: 5, isPublished: true },
+      { id: 6, title: "Sistem Inventaris & Logistik", sortOrder: 6, isPublished: true },
+      { id: 7, title: "Portal Akademik", sortOrder: 7, isPublished: true },
+      { id: 8, title: "Sistem Absensi & HR", sortOrder: 8, isPublished: true },
+      { id: 9, title: "Dashboard Admin Kustom", sortOrder: 9, isPublished: true },
+      { id: 10, title: "Landing Page Konversi Tinggi", sortOrder: 10, isPublished: true },
+      { id: 11, title: "Sistem Reservasi & Booking", sortOrder: 11, isPublished: true },
+      { id: 12, title: "Portal Berita & Media", sortOrder: 12, isPublished: true },
+      { id: 13, title: "Integrasi Machine Learning", sortOrder: 13, isPublished: true },
+      { id: 14, title: "Aplikasi Mobile (Android/iOS)", sortOrder: 14, isPublished: true },
+    ]),
 
     db.insert(skills).values([
       {

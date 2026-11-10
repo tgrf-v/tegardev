@@ -32,6 +32,22 @@ Kategori layanan: Landing Page & Company Profile · Sistem Manajemen (PPDB, Akad
   '2026-11-06T09:00:00+07:00'
 );
 
+INSERT OR IGNORE INTO services (id, title, sort_order, is_published) VALUES
+  (1, 'PPDB Online', 1, 1),
+  (2, 'Website Sekolah & Yayasan', 2, 1),
+  (3, 'Company Profile', 3, 1),
+  (4, 'Toko Online & E-Commerce', 4, 1),
+  (5, 'Aplikasi POS Apotek & Ritel', 5, 1),
+  (6, 'Sistem Inventaris & Logistik', 6, 1),
+  (7, 'Portal Akademik', 7, 1),
+  (8, 'Sistem Absensi & HR', 8, 1),
+  (9, 'Dashboard Admin Kustom', 9, 1),
+  (10, 'Landing Page Konversi Tinggi', 10, 1),
+  (11, 'Sistem Reservasi & Booking', 11, 1),
+  (12, 'Portal Berita & Media', 12, 1),
+  (13, 'Integrasi Machine Learning', 13, 1),
+  (14, 'Aplikasi Mobile (Android/iOS)', 14, 1);
+
 INSERT OR IGNORE INTO skills (id, group_name, items_json, sort_order) VALUES
   (1, 'Frontend & Antarmuka', '["React 19","React Router v8","TypeScript","Tailwind CSS v4","shadcn/ui","HTML & CSS Modern"]', 1),
   (2, 'Backend & Layanan API', '["Cloudflare Workers","Node.js","Hono","REST API","Integrasi Webhook","Autentikasi & Keamanan"]', 2),
