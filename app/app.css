@@ -1,0 +1,570 @@
+@import "@fontsource/anton/400.css";
+@import "@fontsource/work-sans/400.css";
+@import "@fontsource/work-sans/500.css";
+@import "@fontsource/work-sans/600.css";
+@import "@fontsource/work-sans/700.css";
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Anton Fallback";
+  src: local("Impact"), local("Arial Black"), local("sans-serif");
+  size-adjust: 108%;
+  ascent-override: 102%;
+  descent-override: 24%;
+}
+
+@font-face {
+  font-family: "Work Sans Fallback";
+  src: local("Segoe UI"), local("Roboto"), local("Arial"), local("sans-serif");
+  size-adjust: 101%;
+  ascent-override: 93%;
+  descent-override: 24%;
+}
+
+:root {
+  /* Token Tema Terang Bawaan (Default): Bersih, Putih Elegan, Aksen Merah Tegar Solid */
+  --bg: #FFFFFF;
+  --bg2: #FFFFFF;
+  --page-bg: #F4F4F5;
+  --rust: #DC2626;
+  --rust-dark: #B91C1C;
+  --cream: #111827;
+  --cream-dim: #4B5563;
+  --line: #E5E7EB;
+  --card-border: #E5E7EB;
+
+  --radius: 0.25rem;
+  --background: #FFFFFF;
+  --foreground: #111827;
+  --card: #FFFFFF;
+  --card-foreground: #111827;
+  --popover: #FFFFFF;
+  --popover-foreground: #111827;
+  --primary: #DC2626;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F4F4F5;
+  --secondary-foreground: #111827;
+  --muted: #F4F4F5;
+  --muted-foreground: #4B5563;
+  --accent: #F4F4F5;
+  --accent-foreground: #111827;
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
+  --border: #E5E7EB;
+  --input: #E5E7EB;
+  --ring: #DC2626;
+
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #111827;
+  --sidebar-primary: #DC2626;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #F4F4F5;
+  --sidebar-accent-foreground: #111827;
+  --sidebar-border: #E5E7EB;
+  --sidebar-ring: #DC2626;
+
+  /* Browser UI theming & keyword size interpolation */
+  color-scheme: light;
+  accent-color: var(--rust);
+  interpolate-size: allow-keywords;
+  scrollbar-color: #9CA3AF #F4F4F5;
+  scrollbar-width: thin;
+}
+
+:root[data-theme="light"],
+[data-theme="light"] {
+  /* Token Tema Terang: Bersih, Putih Elegan, Aksen Merah Tegar Solid */
+  --bg: #FFFFFF;
+  --bg2: #FFFFFF;
+  --page-bg: #F4F4F5;
+  --rust: #DC2626;
+  --rust-dark: #B91C1C;
+  --cream: #111827;
+  --cream-dim: #4B5563;
+  --line: #E5E7EB;
+  --card-border: #E5E7EB;
+
+  --background: #FFFFFF;
+  --foreground: #111827;
+  --card: #FFFFFF;
+  --card-foreground: #111827;
+  --popover: #FFFFFF;
+  --popover-foreground: #111827;
+  --primary: #DC2626;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F4F4F5;
+  --secondary-foreground: #111827;
+  --muted: #F4F4F5;
+  --muted-foreground: #4B5563;
+  --accent: #F4F4F5;
+  --accent-foreground: #111827;
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
+  --border: #E5E7EB;
+  --input: #E5E7EB;
+  --ring: #DC2626;
+
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #111827;
+  --sidebar-primary: #DC2626;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #F4F4F5;
+  --sidebar-accent-foreground: #111827;
+  --sidebar-border: #E5E7EB;
+  --sidebar-ring: #DC2626;
+
+  color-scheme: light;
+  accent-color: var(--rust);
+  scrollbar-color: #9CA3AF #F4F4F5;
+}
+
+:root[data-theme="dark"],
+[data-theme="dark"] {
+  /* Token Tema Gelap Alternatif (?theme=dark) */
+  --bg: #121010;
+  --bg2: #1A1512;
+  --page-bg: #000000;
+  --rust: #A8391C;
+  --rust-dark: #7E2912;
+  --cream: #F3EEE6;
+  --cream-dim: #C9C0B3;
+  --line: #2E2622;
+  --card-border: rgba(255, 255, 255, 0.08);
+
+  --background: var(--bg);
+  --foreground: var(--cream);
+  --card: var(--bg2);
+  --card-foreground: var(--cream);
+  --popover: var(--bg2);
+  --popover-foreground: var(--cream);
+  --primary: var(--rust);
+  --primary-foreground: var(--cream);
+  --secondary: var(--bg2);
+  --secondary-foreground: var(--cream);
+  --muted: var(--bg2);
+  --muted-foreground: var(--cream-dim);
+  --accent: var(--bg2);
+  --accent-foreground: var(--cream);
+  --destructive: var(--rust);
+  --destructive-foreground: var(--cream);
+  --border: var(--line);
+  --input: var(--line);
+  --ring: var(--rust);
+
+  --sidebar: var(--bg2);
+  --sidebar-foreground: var(--cream);
+  --sidebar-primary: var(--rust);
+  --sidebar-primary-foreground: var(--cream);
+  --sidebar-accent: var(--bg);
+  --sidebar-accent-foreground: var(--cream);
+  --sidebar-border: var(--line);
+  --sidebar-ring: var(--rust);
+
+  color-scheme: dark;
+  accent-color: var(--rust);
+  scrollbar-color: var(--cream-dim) var(--bg);
+}
+
+@theme inline {
+  --font-display: "Anton", "Anton Fallback", sans-serif;
+  --font-sans: "Work Sans", "Work Sans Fallback", sans-serif;
+
+  --color-bg: var(--bg);
+  --color-bg2: var(--bg2);
+  --color-page-bg: var(--page-bg);
+  --color-card-border: var(--card-border);
+  --color-rust: var(--rust);
+  --color-rust-dark: var(--rust-dark);
+  --color-cream: var(--cream);
+  --color-cream-dim: var(--cream-dim);
+  --color-line: var(--line);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-lg: 5px;
+  --radius-xl: 6px;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    outline: none;
+  }
+
+  *:focus-visible {
+    outline: none;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--bg);
+    color: var(--cream);
+    font-family: var(--font-sans);
+    font-size-adjust: from-font;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--cream);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    caret-color: var(--rust);
+  }
+
+  ::selection {
+    background-color: var(--rust);
+    color: var(--cream);
+  }
+
+  a {
+    text-underline-offset: 0.22em;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+}
+
+/* Tipografi display Anton dengan metrik cap-height stabil */
+.font-display-anton {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size-adjust: cap-height from-font;
+  letter-spacing: -0.02em;
+}
+
+/* Wordmark raksasa selebar kontainer dengan peningkatan progresif text-fit */
+.wordmark-lockup {
+  width: 100%;
+  display: block;
+  line-height: 0.88;
+  text-transform: uppercase;
+  font-family: var(--font-display);
+  font-size: clamp(4.375rem, 16vw, 11.875rem);
+  font-size-adjust: cap-height from-font;
+  text-box: trim-both cap alphabetic;
+}
+
+.wordmark-lockup > span {
+  display: block;
+  white-space: nowrap;
+}
+
+@supports (text-fit: grow per-line-all 300%) {
+  .wordmark-lockup {
+    font-size: 4.375rem;
+    text-fit: grow per-line-all 300%;
+  }
+}
+
+@supports not (text-fit: grow per-line-all 300%) {
+  .wordmark-lockup > span {
+    width: fit-content;
+    font-size: calc(var(--text-fit-scale, 1) * 4.375rem);
+  }
+}
+
+/* Kontainer halaman sesuai DESIGN.md & estetika kartu Watts Pet */
+.site-container {
+  width: 100%;
+  max-width: 1320px;
+  margin-inline: auto;
+}
+
+/* Animasi infinite marquee untuk deretan teknologi */
+@keyframes marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 38s linear infinite;
+  will-change: transform;
+}
+
+.marquee-container:hover .animate-marquee,
+.marquee-container:focus-within .animate-marquee {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+    transform: none;
+  }
+  .marquee-container {
+    overflow-x: auto;
+  }
+}
+
+/* Animasi transisi konten ulasan testimoni */
+@keyframes review-slide-in-right {
+  from {
+    transform: translate3d(100%, 0, 0);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes review-slide-in-left {
+  from {
+    transform: translate3d(-100%, 0, 0);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes review-slide-out-left {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(-100%, 0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes review-slide-out-right {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(100%, 0, 0);
+    opacity: 0;
+  }
+}
+
+.animate-review-slide-in-right {
+  animation: review-slide-in-right 550ms cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.animate-review-slide-in-left {
+  animation: review-slide-in-left 550ms cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.animate-review-slide-out-left {
+  animation: review-slide-out-left 550ms cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.animate-review-slide-out-right {
+  animation: review-slide-out-right 550ms cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* State-aware sticky navbar card */
+.public-header-scope {
+  overflow-anchor: none;
+}
+
+.sticky-nav-shell {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: var(--page-bg);
+}
+
+.sticky-nav-card {
+  background-color: var(--rust);
+  border: none;
+  border-radius: 20px;
+}
+
+@media (min-width: 1024px) {
+  .sticky-nav-card {
+    border-radius: 24px;
+  }
+}
+
+/* Seksi di bawah lipatan layar awal */
+.deferred-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto none auto 620px;
+}
+
+/* Penguncian scroll dialog tanpa menghapus scrollbar body */
+dialog:modal,
+[data-slot="dialog-content"] {
+  overscroll-behavior: contain;
+}
+
+dialog::backdrop,
+[data-slot="dialog-overlay"] {
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+
+/* Validasi input hanya setelah interaksi pengguna */
+input:not([type="range"]):user-invalid,
+textarea:user-invalid {
+  border-color: var(--rust);
+}
+
+input:not([type="range"]).user-invalid-fallback,
+textarea.user-invalid-fallback {
+  border-color: var(--rust);
+}
+
+textarea.auto-grow-textarea {
+  field-sizing: content;
+  min-block-size: 6rem;
+  max-block-size: 15rem;
+  resize: vertical;
+}
+
+/* Angka harga tabular agar sejajar presisi */
+.tabular-price {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Accordion eksklusif berbasis details */
+.faq-disclosure summary {
+  list-style: none;
+}
+
+.faq-disclosure summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-disclosure .faq-answer {
+  overflow: hidden;
+  transition: block-size 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 3D Flip Card Mobile */
+.flip-perspective {
+  perspective: 1000px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.flip-card-inner.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+}
+
+/* Tabel responsif pada Dashboard Admin */
+.admin-table-region {
+  overflow: auto;
+  max-inline-size: 100%;
+  container-type: inline-size;
+}
+
+.admin-table-region thead {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 2;
+  background-color: var(--bg2);
+}
+
+@container (width < 640px) {
+  .admin-responsive-table,
+  .admin-responsive-table tbody,
+  .admin-responsive-table tr,
+  .admin-responsive-table th,
+  .admin-responsive-table td {
+    display: block;
+  }
+
+  .admin-responsive-table thead {
+    display: none;
+  }
+
+  .admin-responsive-table tbody tr {
+    margin-block-end: 0.875rem;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background-color: var(--bg2);
+    padding: 0.75rem;
+  }
+
+  .admin-responsive-table tbody th[scope="row"] {
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .admin-responsive-table tbody td[data-label]::before {
+    content: attr(data-label) ": ";
+    color: var(--cream-dim);
+    font-weight: 500;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
