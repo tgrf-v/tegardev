@@ -9,6 +9,7 @@ export interface SiteSettings {
   linkedinUrl: string;
   ctaHeadline: string;
   ctaSubtext: string;
+  pricingText: string;
   updatedAt: string;
 }
 

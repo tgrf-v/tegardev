@@ -11,6 +11,7 @@ export const siteSettings = sqliteTable("site_settings", {
   linkedinUrl: text("linkedin_url").notNull().default(""),
   ctaHeadline: text("cta_headline").notNull(),
   ctaSubtext: text("cta_subtext").notNull(),
+  pricingText: text("pricing_text").notNull().default(""),
   updatedAt: text("updated_at").notNull(),
 });
 
