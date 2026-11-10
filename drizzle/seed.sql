@@ -9,6 +9,7 @@ INSERT OR IGNORE INTO site_settings (
   linkedin_url,
   cta_headline,
   cta_subtext,
+  pricing_text,
   updated_at
 ) VALUES (
   1,
@@ -25,6 +26,9 @@ Sementara bagi pemilik usaha dan instansi, website bukan sekadar brosur digital 
   'https://www.linkedin.com/in/tegar-rifa-i-a68757412/',
   'Siap membangun website atau sistem untuk instansi dan bisnis Anda?',
   'Ceritakan kebutuhan fitur, target jadwal rilis, atau paket yang diminati untuk mendapatkan rincian ruang lingkup yang jelas.',
+  'Setiap proyek bersifat custom, harga ditentukan berdasarkan kompleksitas fitur, jumlah modul, dan platform (web/mobile). Hubungi saya untuk konsultasi gratis dan estimasi biaya sesuai kebutuhan Anda.
+
+Kategori layanan: Landing Page & Company Profile · Sistem Manajemen (PPDB, Akademik, POS, Order Management) · Aplikasi Mobile · Integrasi Machine Learning',
   '2026-11-06T09:00:00+07:00'
 );
 
@@ -110,16 +114,22 @@ INSERT OR IGNORE INTO package_addons (id, package_id, name, addon_price, price_d
   (213, 6, 'Penyiapan Arsitektur Server Khusus & Backup Terjadwal', NULL, '+ Rp X.XXX.XXX', 2);
 
 INSERT OR IGNORE INTO testimonials (id, client_name, client_role_org, quote, is_featured, is_published, sort_order) VALUES
-  (1, 'Panitia Penerimaan Siswa Baru', 'Contoh Ulasan Instansi Pendidikan — Dapat Diubah di Dashboard Admin', 'Alur pendaftaran calon siswa jauh lebih tertib dibanding rekap manual. Orang tua murid bisa mendaftar dan mengunggah berkas langsung dari ponsel, sementara panitia tinggal memverifikasi dan mengunduh rekap Excel.', 1, 1, 1),
-  (2, 'Pengelola Operasional Usaha', 'Contoh Ulasan Bisnis Ritel — Dapat Diubah di Dashboard Admin', 'Komunikasi pengerjaan jelas sejak diskusi awal. Tampilan katalog bersih, waktu muat halaman cepat, dan tim kami langsung terbiasa memperbarui stok produk lewat halaman admin.', 0, 1, 2),
-  (3, 'Koordinator Humas Sekolah', 'Contoh Ulasan Profil Sekolah — Dapat Diubah di Dashboard Admin', 'Website profil sekolah tampil rapi dan mudah dinavigasi wali murid. Saat ada pengumuman agenda mendadak, staf tata usaha bisa mempublikasikannya sendiri dalam hitungan menit.', 0, 1, 3),
-  (4, 'Kepala Bagian Akademik', 'Contoh Ulasan Portal Akademik — Dapat Diubah di Dashboard Admin', 'Portal akademik dan sistem penjadwalan berjalan sangat lancar. Guru dan siswa dapat memantau agenda dan materi pembelajaran secara tertib langsung dari web.', 0, 1, 4),
-  (5, 'Manajemen Yayasan Pendidikan', 'Contoh Ulasan Yayasan — Dapat Diubah di Dashboard Admin', 'Kecepatan akses di jaringan edge Cloudflare luar biasa. Seluruh unit sekolah di bawah yayasan kami kini memiliki standar tampilan digital yang seragam dan profesional.', 0, 1, 5),
-  (6, 'Direktur Operasional Bisnis', 'Contoh Ulasan Perusahaan Layanan — Dapat Diubah di Dashboard Admin', 'Alur kerja dan dokumentasi serah terimanya sangat rapi. Dashboard admin memudahkan staf kami mengelola pesanan dan pertanyaan calon klien setiap hari tanpa kendala.', 0, 1, 6);
+  (1, 'Apoteker', 'Apotek Asa***i', 'Awalnya saya terbebani dengan biaya hosting bulanan untuk sistem POS apotek saya. TegarDev membangun ulang sistem menggunakan Cloudflare dan Supabase, sehingga biaya langganan hosting bisa dihilangkan sepenuhnya. Pengeluaran bulanan jadi jauh lebih hemat.', 1, 1, 1),
+  (2, 'Panitia Penerimaan Siswa Baru', 'Contoh Ulasan Instansi Pendidikan — Dapat Diubah di Dashboard Admin', 'Alur pendaftaran calon siswa jauh lebih tertib dibanding rekap manual. Orang tua murid bisa mendaftar dan mengunggah berkas langsung dari ponsel, sementara panitia tinggal memverifikasi dan mengunduh rekap Excel.', 0, 1, 2),
+  (3, 'Pengelola Operasional Usaha', 'Contoh Ulasan Bisnis Ritel — Dapat Diubah di Dashboard Admin', 'Komunikasi pengerjaan jelas sejak diskusi awal. Tampilan katalog bersih, waktu muat halaman cepat, dan tim kami langsung terbiasa memperbarui stok produk lewat halaman admin.', 0, 1, 3),
+  (4, 'Koordinator Humas Sekolah', 'Contoh Ulasan Profil Sekolah — Dapat Diubah di Dashboard Admin', 'Website profil sekolah tampil rapi dan mudah dinavigasi wali murid. Saat ada pengumuman agenda mendadak, staf tata usaha bisa mempublikasikannya sendiri dalam hitungan menit.', 0, 1, 4),
+  (5, 'Kepala Bagian Akademik', 'Contoh Ulasan Portal Akademik — Dapat Diubah di Dashboard Admin', 'Portal akademik dan sistem penjadwalan berjalan sangat lancar. Guru dan siswa dapat memantau agenda dan materi pembelajaran secara tertib langsung dari web.', 0, 1, 5),
+  (6, 'Manajemen Yayasan Pendidikan', 'Contoh Ulasan Yayasan — Dapat Diubah di Dashboard Admin', 'Kecepatan akses di jaringan edge Cloudflare luar biasa. Seluruh unit sekolah di bawah yayasan kami kini memiliki standar tampilan digital yang seragam dan profesional.', 0, 1, 6),
+  (7, 'Direktur Operasional Bisnis', 'Contoh Ulasan Perusahaan Layanan — Dapat Diubah di Dashboard Admin', 'Alur kerja dan dokumentasi serah terimanya sangat rapi. Dashboard admin memudahkan staf kami mengelola pesanan dan pertanyaan calon klien setiap hari tanpa kendala.', 0, 1, 7);
 
 INSERT OR IGNORE INTO faqs (id, question, answer, is_published, sort_order) VALUES
   (1, 'Bagaimana tahapan pembayaran untuk setiap proyek pembuatan website?', 'Pembayaran dilakukan secara bertahap dalam dua termin: uang muka sebesar 50% setelah ruang lingkup fitur disepakati untuk memulai pengerjaan, dan pelunasan 50% setelah website selesai diuji coba serta siap dirilis ke domain resmi.', 1, 1),
   (2, 'Apakah harga paket sudah termasuk domain dan server, serta bagaimana biaya tahun berikutnya?', 'Paket yang mencantumkan fasilitas domain dan server sudah mencakup biaya aktif untuk tahun pertama. Memasuki tahun kedua, Anda hanya perlu membayar biaya perpanjangan tahunan sesuai rincian pada tiap paket tanpa dikenakan biaya pembuatan ulang.', 1, 2),
   (3, 'Berapa kali batas revisi yang didapat selama proses pengerjaan?', 'Setiap paket mencakup 2 hingga 3 sesi revisi terstruktur yang mengacu pada daftar fitur yang telah disepakati di awal. Penambahan modul baru di luar ruang lingkup awal tetap dapat dikerjakan dengan penyesuaian biaya dan jadwal yang disepakati bersama.', 1, 3),
   (4, 'Apakah pihak sekolah atau perusahaan mendapatkan akses penuh ke halaman admin dan domain?', 'Ya. Anda mendapatkan akses penuh ke Dashboard Admin pengelolaan konten beserta panduan penggunaannya. Domain resmi juga didaftarkan atas nama instansi atau bisnis Anda.', 1, 4),
-  (5, 'Bagaimana jika ditemukan kendala teknis setelah website resmi diluncurkan?', 'Seluruh paket dilengkapi masa garansi perbaikan kendala teknis gratis selama 30 hingga 60 hari setelah serah terima agar operasional awal berjalan lancar, termasuk pendampingan penggunaan bagi tim Anda.', 1, 5);
+  (5, 'Bagaimana jika ditemukan kendala teknis setelah website resmi diluncurkan?', 'Seluruh paket dilengkapi masa garansi perbaikan kendala teknis gratis selama 30 hingga 60 hari setelah serah terima agar operasional awal berjalan lancar, termasuk pendampingan penggunaan bagi tim Anda.', 1, 5),
+  (6, 'Apakah bisa request fitur di luar paket standar?', 'Bisa. Jika ada permintaan fitur atau modul tambahan di luar cakupan awal, akan ada penyesuaian biaya sesuai kompleksitas fitur tersebut.', 1, 6),
+  (7, 'Apakah TegarDev juga melayani pembuatan aplikasi mobile?', 'Ya, selain website dan sistem web, saya juga melayani pengembangan aplikasi mobile (Android/iOS).', 1, 7),
+  (8, 'Apakah ada pengalaman membangun sistem dengan machine learning?', 'Ada. Salah satu contohnya adalah sistem skrining komplikasi kehamilan yang mengklasifikasi risiko berdasarkan variabel seperti usia kehamilan, riwayat kehamilan, dan riwayat penyakit pasien.', 1, 8),
+  (9, 'Bagaimana proses konsultasi awal sebelum proyek dimulai?', 'Konsultasi bisa dilakukan secara online (Google Meet atau sejenisnya) maupun offline. Saya akan meminta Anda menjelaskan masalah yang dihadapi, kemudian memberikan solusi, estimasi biaya, dan batasan fitur secara langsung dan transparan. Setelah disepakati, proyek langsung dieksekusi.', 1, 9),
+  (10, 'Apakah TegarDev melayani klien di luar Indonesia?', 'Ya. Saya melayani klien di Indonesia maupun luar negeri, dengan komunikasi dalam Bahasa Indonesia maupun Bahasa Inggris.', 1, 10);

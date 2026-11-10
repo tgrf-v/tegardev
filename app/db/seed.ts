@@ -21,6 +21,11 @@ export const INITIAL_ABOUT_PARAGRAPHS = [
   "Sementara bagi pemilik usaha dan instansi, website bukan sekadar brosur digital melainkan sarana konversi langsung ke WhatsApp atau sistem internal. Setiap baris kode dioptimalkan untuk kecepatan muat instan, keamanan sertifikat cloud, dan kemudahan pengelolaan konten tanpa perlu keahlian koding.",
 ].join("\n\n");
 
+export const INITIAL_PRICING_TEXT = [
+  "Setiap proyek bersifat custom, harga ditentukan berdasarkan kompleksitas fitur, jumlah modul, dan platform (web/mobile). Hubungi saya untuk konsultasi gratis dan estimasi biaya sesuai kebutuhan Anda.",
+  "Kategori layanan: Landing Page & Company Profile · Sistem Manajemen (PPDB, Akademik, POS, Order Management) · Aplikasi Mobile · Integrasi Machine Learning",
+].join("\n\n");
+
 export async function ensureDatabaseSeeded(db: AppDatabase): Promise<void> {
   const existing = await db
     .select({ total: count() })
@@ -45,6 +50,7 @@ export async function ensureDatabaseSeeded(db: AppDatabase): Promise<void> {
         "Siap membangun website atau sistem untuk instansi dan bisnis Anda?",
       ctaSubtext:
         "Ceritakan kebutuhan fitur, target jadwal rilis, atau paket yang diminati untuk mendapatkan rincian ruang lingkup yang jelas.",
+      pricingText: INITIAL_PRICING_TEXT,
       updatedAt: SEED_TIMESTAMP,
     }),
 
@@ -374,14 +380,24 @@ export async function ensureDatabaseSeeded(db: AppDatabase): Promise<void> {
     db.insert(testimonials).values([
       {
         id: 1,
+        clientName: "Apoteker",
+        clientRoleOrg: "Apotek Asa***i",
+        quote:
+          "Awalnya saya terbebani dengan biaya hosting bulanan untuk sistem POS apotek saya. TegarDev membangun ulang sistem menggunakan Cloudflare dan Supabase, sehingga biaya langganan hosting bisa dihilangkan sepenuhnya. Pengeluaran bulanan jadi jauh lebih hemat.",
+        isFeatured: true,
+        isPublished: true,
+        sortOrder: 1,
+      },
+      {
+        id: 2,
         clientName: "Panitia Penerimaan Siswa Baru",
         clientRoleOrg:
           "Contoh Ulasan Instansi Pendidikan — Dapat Diubah di Dashboard Admin",
         quote:
           "Alur pendaftaran calon siswa jauh lebih tertib dibanding rekap manual. Orang tua murid bisa mendaftar dan mengunggah berkas langsung dari ponsel, sementara panitia tinggal memverifikasi dan mengunduh rekap Excel.",
-        isFeatured: true,
+        isFeatured: false,
         isPublished: true,
-        sortOrder: 1,
+        sortOrder: 2,
       },
       {
         id: 2,
@@ -485,6 +501,47 @@ export async function ensureDatabaseSeeded(db: AppDatabase): Promise<void> {
           "Seluruh paket dilengkapi masa garansi perbaikan kendala teknis gratis selama 30 hingga 60 hari setelah serah terima agar operasional awal berjalan lancar, termasuk pendampingan penggunaan bagi tim Anda.",
         isPublished: true,
         sortOrder: 5,
+      },
+      {
+        id: 6,
+        question: "Apakah bisa request fitur di luar paket standar?",
+        answer:
+          "Bisa. Jika ada permintaan fitur atau modul tambahan di luar cakupan awal, akan ada penyesuaian biaya sesuai kompleksitas fitur tersebut.",
+        isPublished: true,
+        sortOrder: 6,
+      },
+      {
+        id: 7,
+        question: "Apakah TegarDev juga melayani pembuatan aplikasi mobile?",
+        answer:
+          "Ya, selain website dan sistem web, saya juga melayani pengembangan aplikasi mobile (Android/iOS).",
+        isPublished: true,
+        sortOrder: 7,
+      },
+      {
+        id: 8,
+        question:
+          "Apakah ada pengalaman membangun sistem dengan machine learning?",
+        answer:
+          "Ada. Salah satu contohnya adalah sistem skrining komplikasi kehamilan yang mengklasifikasi risiko berdasarkan variabel seperti usia kehamilan, riwayat kehamilan, dan riwayat penyakit pasien.",
+        isPublished: true,
+        sortOrder: 8,
+      },
+      {
+        id: 9,
+        question: "Bagaimana proses konsultasi awal sebelum proyek dimulai?",
+        answer:
+          "Konsultasi bisa dilakukan secara online (Google Meet atau sejenisnya) maupun offline. Saya akan meminta Anda menjelaskan masalah yang dihadapi, kemudian memberikan solusi, estimasi biaya, dan batasan fitur secara langsung dan transparan. Setelah disepakati, proyek langsung dieksekusi.",
+        isPublished: true,
+        sortOrder: 9,
+      },
+      {
+        id: 10,
+        question: "Apakah TegarDev melayani klien di luar Indonesia?",
+        answer:
+          "Ya. Saya melayani klien di Indonesia maupun luar negeri, dengan komunikasi dalam Bahasa Indonesia maupun Bahasa Inggris.",
+        isPublished: true,
+        sortOrder: 10,
       },
     ]),
   ]);
