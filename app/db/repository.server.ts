@@ -9,6 +9,7 @@ import {
   packageFeatures,
   packages,
   projects,
+  services,
   siteSettings,
   skills,
   testimonials,
@@ -23,6 +24,7 @@ import type {
   PackageFeature,
   PortfolioContentBundle,
   ProjectItem,
+  ServiceItem,
   ServicePackage,
   SiteSettings,
   SkillGroup,
@@ -141,6 +143,7 @@ export async function getPortfolioBundle(
 
   const [
     settingsRows,
+    serviceRows,
     skillRows,
     projectRows,
     categoryRows,
@@ -152,6 +155,7 @@ export async function getPortfolioBundle(
     mediaRows,
   ] = await db.batch([
     db.select().from(siteSettings).where(eq(siteSettings.id, 1)),
+    db.select().from(services).orderBy(asc(services.sortOrder), asc(services.id)),
     db.select().from(skills).orderBy(asc(skills.sortOrder), asc(skills.id)),
     db
       .select()
@@ -187,6 +191,14 @@ export async function getPortfolioBundle(
 
   return {
     settings: mapSettingsRow(settingsRows[0]),
+    services: serviceRows.map(
+      (row): ServiceItem => ({
+        id: row.id,
+        title: row.title,
+        sortOrder: row.sortOrder,
+        isPublished: row.isPublished,
+      }),
+    ),
     skills: skillRows.map(
       (row): SkillGroup => ({
         id: row.id,
@@ -256,19 +268,19 @@ export async function getAdminProfileData(d1: D1Database) {
   const db = createDatabase(d1);
   await ensureDatabaseSeeded(db);
 
-  const [settingsRows, skillRows] = await db.batch([
+  const [settingsRows, serviceRows] = await db.batch([
     db.select().from(siteSettings).where(eq(siteSettings.id, 1)),
-    db.select().from(skills).orderBy(asc(skills.sortOrder), asc(skills.id)),
+    db.select().from(services).orderBy(asc(services.sortOrder), asc(services.id)),
   ]);
 
   return {
     settings: mapSettingsRow(settingsRows[0]),
-    skills: skillRows.map(
-      (row): SkillGroup => ({
+    services: serviceRows.map(
+      (row): ServiceItem => ({
         id: row.id,
-        groupName: row.groupName,
-        items: parseJsonStringArray(row.itemsJson),
+        title: row.title,
         sortOrder: row.sortOrder,
+        isPublished: row.isPublished,
       }),
     ),
   };
@@ -352,6 +364,44 @@ export async function savePricingTextRecord(
         updatedAt: now,
       },
     });
+}
+
+export async function upsertServiceRecord(
+  d1: D1Database,
+  input: {
+    id?: number;
+    title: string;
+    sortOrder: number;
+    isPublished: boolean;
+  },
+): Promise<void> {
+  const db = createDatabase(d1);
+
+  if (input.id) {
+    await db
+      .update(services)
+      .set({
+        title: input.title,
+        sortOrder: input.sortOrder,
+        isPublished: input.isPublished,
+      })
+      .where(eq(services.id, input.id));
+    return;
+  }
+
+  await db.insert(services).values({
+    title: input.title,
+    sortOrder: input.sortOrder,
+    isPublished: input.isPublished,
+  });
+}
+
+export async function deleteServiceRecord(
+  d1: D1Database,
+  id: number,
+): Promise<void> {
+  const db = createDatabase(d1);
+  await db.delete(services).where(eq(services.id, id));
 }
 
 export async function upsertSkillGroupRecord(
