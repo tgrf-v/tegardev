@@ -172,7 +172,6 @@ export default function HomePage({ loaderData }: Route.ComponentProps) {
             categories={bundle.categories}
             packages={bundle.packages}
             onSelectPackage={handleOpenBriefWithPackage}
-            onStartProject={handleOpenGeneralBrief}
           />
 
           <TestimonialsSection

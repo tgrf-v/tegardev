@@ -9,7 +9,6 @@ interface PricingSectionProps {
   packages: ServicePackage[];
   pricingText?: string;
   onSelectPackage?: (pkg: ServicePackage) => void;
-  onStartProject?: () => void;
   theme?: "light" | "dark";
 }
 
@@ -18,7 +17,6 @@ export function PricingSection({
   packages,
   pricingText,
   onSelectPackage,
-  onStartProject,
   theme = "light",
 }: PricingSectionProps) {
   const isLight = theme === "light";
@@ -97,40 +95,19 @@ export function PricingSection({
           </div>
 
           {paragraphs.length > 0 ? (
-            <div
-              className={cn(
-                "mt-8 rounded-[16px] p-6 sm:p-8 border",
-                isLight
-                  ? "border-card-border bg-[#faf9f5]"
-                  : "border-line bg-[#161616]",
-              )}
-            >
-              <div className="max-w-3xl space-y-4">
-                {paragraphs.map((p, idx) => (
-                  <p
-                    key={idx}
-                    className={cn(
-                      "text-[15px] sm:text-[16px] leading-relaxed",
-                      idx === 0
-                        ? "font-medium text-cream"
-                        : "text-[14px] sm:text-[14.5px] text-cream-dim border-t border-line/40 pt-4",
-                    )}
-                  >
-                    {p}
-                  </p>
-                ))}
-              </div>
-              {onStartProject ? (
-                <div className="mt-6 flex flex-wrap items-center gap-4">
-                  <button
-                    type="button"
-                    onClick={onStartProject}
-                    className="inline-flex h-11 items-center justify-center rounded-[8px] bg-rust px-6 text-[14px] font-semibold text-white transition-opacity hover:opacity-90 active:scale-[0.98]"
-                  >
-                    Konsultasi Kebutuhan Proyek
-                  </button>
-                </div>
-              ) : null}
+            <div className="mt-5 max-w-3xl space-y-3">
+              {paragraphs.map((p, idx) => (
+                <p
+                  key={idx}
+                  className={cn(
+                    "text-[15px] sm:text-[16px] leading-relaxed",
+                    isLight ? "text-cream-dim" : "text-cream/80",
+                    idx === 0 ? "font-normal text-cream" : "",
+                  )}
+                >
+                  {p}
+                </p>
+              ))}
             </div>
           ) : null}
 
@@ -187,40 +164,19 @@ export function PricingSection({
           </div>
 
           {paragraphs.length > 0 ? (
-            <div
-              className={cn(
-                "mt-8 rounded-[16px] p-6 sm:p-8 border",
-                isLight
-                  ? "border-card-border bg-[#faf9f5]"
-                  : "border-line bg-[#161616]",
-              )}
-            >
-              <div className="max-w-3xl space-y-4">
-                {paragraphs.map((p, idx) => (
-                  <p
-                    key={idx}
-                    className={cn(
-                      "text-[15px] sm:text-[16px] leading-relaxed",
-                      idx === 0
-                        ? "font-medium text-cream"
-                        : "text-[14px] sm:text-[14.5px] text-cream-dim border-t border-line/40 pt-4",
-                    )}
-                  >
-                    {p}
-                  </p>
-                ))}
-              </div>
-              {onStartProject ? (
-                <div className="mt-6 flex flex-wrap items-center gap-4">
-                  <button
-                    type="button"
-                    onClick={onStartProject}
-                    className="inline-flex h-11 items-center justify-center rounded-[8px] bg-rust px-6 text-[14px] font-semibold text-white transition-opacity hover:opacity-90 active:scale-[0.98]"
-                  >
-                    Konsultasi Kebutuhan Proyek
-                  </button>
-                </div>
-              ) : null}
+            <div className="mt-5 max-w-3xl space-y-3">
+              {paragraphs.map((p, idx) => (
+                <p
+                  key={idx}
+                  className={cn(
+                    "text-[15px] sm:text-[16px] leading-relaxed",
+                    isLight ? "text-cream-dim" : "text-cream/80",
+                    idx === 0 ? "font-normal text-cream" : "",
+                  )}
+                >
+                  {p}
+                </p>
+              ))}
             </div>
           ) : null}
         </div>
