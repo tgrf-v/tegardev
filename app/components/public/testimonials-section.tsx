@@ -23,9 +23,9 @@ export function TestimonialsSection({
   const [direction, setDirection] = React.useState<"next" | "prev">("next");
   const [isPaused, setIsPaused] = React.useState(false);
 
-  // Memastikan data ulasan mencukupi untuk rotasi tanpa henti
+  // Memastikan data ulasan mencukupi untuk rotasi tanpa henti hanya jika ulasan banyak (>= 4)
   const extendedItems = React.useMemo(() => {
-    if (published.length === 0) return [];
+    if (published.length < 4) return published;
     let list = [...published];
     while (list.length < 8) {
       list = [...list, ...published];
@@ -37,42 +37,46 @@ export function TestimonialsSection({
 
   // Navigasi ke ulasan berikutnya (geser ke kiri)
   const handleNext = React.useCallback(() => {
-    if (isAnimating || len === 0) return;
+    if (isAnimating || published.length <= 4 || len === 0) return;
     setDirection("next");
     setIsAnimating(true);
     setTimeout(() => {
       setCurrentIndex((prev) => (prev + 1) % len);
       setIsAnimating(false);
     }, 550);
-  }, [isAnimating, len]);
+  }, [isAnimating, published.length, len]);
 
   // Navigasi ke ulasan sebelumnya (geser ke kanan)
   const handlePrev = React.useCallback(() => {
-    if (isAnimating || len === 0) return;
+    if (isAnimating || published.length <= 4 || len === 0) return;
     setDirection("prev");
     setIsAnimating(true);
     setTimeout(() => {
       setCurrentIndex((prev) => (prev - 1 + len) % len);
       setIsAnimating(false);
     }, 550);
-  }, [isAnimating, len]);
+  }, [isAnimating, published.length, len]);
 
-  // Rotasi otomatis ulasan bergerak ke kiri setiap 4,5 detik
+  // Rotasi otomatis ulasan bergerak ke kiri setiap 4,5 detik hanya jika lebih dari 4 ulasan
   React.useEffect(() => {
-    if (isPaused || isAnimating || len === 0) return;
+    if (isPaused || isAnimating || published.length <= 4 || len === 0) return;
     const timer = setInterval(() => {
       handleNext();
     }, 4500);
     return () => clearInterval(timer);
-  }, [isPaused, isAnimating, len, handleNext]);
+  }, [isPaused, isAnimating, published.length, len, handleNext]);
 
   if (published.length === 0) return null;
 
   // Menentukan indeks ulasan yang masuk ke masing-masing kartu saat transisi
-  const incomingIndex0 = direction === "next" ? (currentIndex + 1) % len : (currentIndex - 1 + len) % len;
-  const incomingIndex1 = direction === "next" ? (currentIndex + 2) % len : currentIndex;
-  const incomingIndex2 = direction === "next" ? (currentIndex + 3) % len : (currentIndex + 1) % len;
-  const incomingIndex3 = direction === "next" ? (currentIndex + 4) % len : (currentIndex + 2) % len;
+  const incomingIndex0 =
+    direction === "next" ? (currentIndex + 1) % len : (currentIndex - 1 + len) % len;
+  const incomingIndex1 =
+    direction === "next" ? (currentIndex + 2) % len : currentIndex;
+  const incomingIndex2 =
+    direction === "next" ? (currentIndex + 3) % len : (currentIndex + 1) % len;
+  const incomingIndex3 =
+    direction === "next" ? (currentIndex + 4) % len : (currentIndex + 2) % len;
 
   return (
     <section
@@ -94,83 +98,110 @@ export function TestimonialsSection({
           </h2>
         </div>
 
-        {/* Kontrol Navigasi Manual */}
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={handlePrev}
-            aria-label="Ulasan sebelumnya"
-            className={cn(
-              "rounded-full px-4 py-2 text-[13px] font-medium transition-colors cursor-pointer",
-              isLight
-                ? "border border-line bg-white text-cream hover:border-rust hover:text-rust shadow-2xs"
-                : "border border-white/15 bg-bg text-cream/80 hover:border-rust hover:text-white",
-            )}
-          >
-            Sebelumnya
-          </button>
-          <button
-            type="button"
-            onClick={handleNext}
-            aria-label="Ulasan berikutnya"
-            className={cn(
-              "rounded-full px-4 py-2 text-[13px] font-medium transition-colors cursor-pointer",
-              isLight
-                ? "border border-line bg-white text-cream hover:border-rust hover:text-rust shadow-2xs"
-                : "border border-white/15 bg-bg text-cream/80 hover:border-rust hover:text-white",
-            )}
-          >
-            Selanjutnya
-          </button>
+        {/* Kontrol Navigasi Manual hanya ditampilkan bila ulasan lebih dari 4 */}
+        {published.length > 4 && (
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={handlePrev}
+              aria-label="Ulasan sebelumnya"
+              className={cn(
+                "rounded-full px-4 py-2 text-[13px] font-medium transition-colors cursor-pointer",
+                isLight
+                  ? "border border-line bg-white text-cream hover:border-rust hover:text-rust shadow-2xs"
+                  : "border border-white/15 bg-bg text-cream/80 hover:border-rust hover:text-white",
+              )}
+            >
+              Sebelumnya
+            </button>
+            <button
+              type="button"
+              onClick={handleNext}
+              aria-label="Ulasan berikutnya"
+              className={cn(
+                "rounded-full px-4 py-2 text-[13px] font-medium transition-colors cursor-pointer",
+                isLight
+                  ? "border border-line bg-white text-cream hover:border-rust hover:text-rust shadow-2xs"
+                  : "border border-white/15 bg-bg text-cream/80 hover:border-rust hover:text-white",
+              )}
+            >
+              Selanjutnya
+            </button>
+          </div>
+        )}
+      </div>
+
+      {published.length === 1 ? (
+        /* Jika hanya ada 1 testimoni, tampilkan tepat 1 kartu tanpa duplikasi */
+        <div className="flex justify-start">
+          <div className="w-full max-w-[420px]">
+            <TestimonialCard
+              isRed={true}
+              theme={theme}
+              currentReview={published[0]}
+              incomingReview={published[0]}
+              isAnimating={false}
+              direction="next"
+            />
+          </div>
         </div>
-      </div>
-
-      {/* Grid 4 Kolom: Kolom merah tetap di posisi kiri seperti mask, kolom lainnya berukuran sama */}
-      <div
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr] gap-4 sm:gap-5"
-      >
-        {/* Kolom 1: Kartu Merah Tetap (Sedikit Lebih Besar) */}
-        <TestimonialCard
-          isRed={true}
-          theme={theme}
-          currentReview={extendedItems[currentIndex]}
-          incomingReview={extendedItems[incomingIndex0]}
-          isAnimating={isAnimating}
-          direction={direction}
-        />
-
-        {/* Kolom 2: Kartu Biasa */}
-        <TestimonialCard
-          isRed={false}
-          theme={theme}
-          currentReview={extendedItems[(currentIndex + 1) % len]}
-          incomingReview={extendedItems[incomingIndex1]}
-          isAnimating={isAnimating}
-          direction={direction}
-        />
-
-        {/* Kolom 3: Kartu Biasa */}
-        <TestimonialCard
-          isRed={false}
-          theme={theme}
-          currentReview={extendedItems[(currentIndex + 2) % len]}
-          incomingReview={extendedItems[incomingIndex2]}
-          isAnimating={isAnimating}
-          direction={direction}
-        />
-
-        {/* Kolom 4: Kartu Biasa */}
-        <TestimonialCard
-          isRed={false}
-          theme={theme}
-          currentReview={extendedItems[(currentIndex + 3) % len]}
-          incomingReview={extendedItems[incomingIndex3]}
-          isAnimating={isAnimating}
-          direction={direction}
-        />
-      </div>
+      ) : published.length < 4 ? (
+        /* Jika 2 atau 3 testimoni, tampilkan sesuai jumlah tanpa duplikasi */
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+          {published.map((item, idx) => (
+            <div key={item.id} className="w-full">
+              <TestimonialCard
+                isRed={item.isFeatured || idx === 0}
+                theme={theme}
+                currentReview={item}
+                incomingReview={item}
+                isAnimating={false}
+                direction="next"
+              />
+            </div>
+          ))}
+        </div>
+      ) : (
+        /* Jika 4 atau lebih ulasan, aktifkan rotasi 4 kolom */
+        <div
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr] gap-4 sm:gap-5"
+        >
+          <TestimonialCard
+            isRed={true}
+            theme={theme}
+            currentReview={extendedItems[currentIndex]}
+            incomingReview={extendedItems[incomingIndex0]}
+            isAnimating={isAnimating}
+            direction={direction}
+          />
+          <TestimonialCard
+            isRed={false}
+            theme={theme}
+            currentReview={extendedItems[(currentIndex + 1) % len]}
+            incomingReview={extendedItems[incomingIndex1]}
+            isAnimating={isAnimating}
+            direction={direction}
+          />
+          <TestimonialCard
+            isRed={false}
+            theme={theme}
+            currentReview={extendedItems[(currentIndex + 2) % len]}
+            incomingReview={extendedItems[incomingIndex2]}
+            isAnimating={isAnimating}
+            direction={direction}
+          />
+          <TestimonialCard
+            isRed={false}
+            theme={theme}
+            currentReview={extendedItems[(currentIndex + 3) % len]}
+            incomingReview={extendedItems[incomingIndex3]}
+            isAnimating={isAnimating}
+            direction={direction}
+          />
+        </div>
+      )}
     </section>
   );
 }
